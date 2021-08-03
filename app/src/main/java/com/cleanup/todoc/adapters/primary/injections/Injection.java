@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.cleanup.todoc.adapters.secondary.SQLProjectQuery;
 import com.cleanup.todoc.adapters.secondary.SQLTaskQuery;
+import com.cleanup.todoc.businesslogic.usecases.RetrieveProjects;
 import com.cleanup.todoc.businesslogic.usecases.RetrieveTasks;
 import com.cleanup.todoc.database.AppDataBase;
 
@@ -19,7 +20,15 @@ public class Injection {
         return new SQLTaskQuery(dataBase.taskDao(), Injection.provideSQLProjectQuery(context));
     }
 
+    public static RetrieveTasks provideRetrieveTasks(Context context) {
+        return new RetrieveTasks(Injection.provideSQLTaskQuery(context));
+    }
+
+    public static RetrieveProjects provideRetrieveProjects(Context context) {
+        return new RetrieveProjects(Injection.provideSQLProjectQuery(context));
+    }
+
     public static TaskViewModelFactory provideTaskViewModelFactory(Context context) {
-        return new TaskViewModelFactory(Injection.provideSQLTaskQuery(context));
+        return new TaskViewModelFactory(Injection.provideRetrieveTasks(context), Injection.provideRetrieveProjects(context));
     }
 }

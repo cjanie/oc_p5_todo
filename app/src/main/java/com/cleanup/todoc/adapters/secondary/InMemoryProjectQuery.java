@@ -4,6 +4,7 @@ package com.cleanup.todoc.adapters.secondary;
 import com.cleanup.todoc.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.businesslogic.usecases.ProjectVO;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class InMemoryProjectQuery implements ProjectQuery {
             }
         }
         return null;
+    }
+
+    @Override
+    public ProjectVO[] retrieveAll() {
+        ProjectVO[] projectVOs = new ProjectVO[this.projectVOs.size()];
+        return this.projectVOs.toArray(projectVOs);
     }
 
     public void setProjectVOs(List<ProjectVO> projectVOs) {

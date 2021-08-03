@@ -1,8 +1,5 @@
 package com.cleanup.todoc.adapters.secondary;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-
 import com.cleanup.todoc.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.businesslogic.gateways.queries.TaskQuery;
 import com.cleanup.todoc.businesslogic.usecases.RetrieveProjectById;
@@ -24,13 +21,11 @@ public class SQLTaskQuery implements TaskQuery {
         this.projectQuery = projectQuery;
     }
 
-
-
     @Override
     public List<TaskVO> retrieveAll() {
         List<TaskVO> taskVOs = new ArrayList<>();
-        if(this.taskDao.getAllTasks().getValue() != null && !this.taskDao.getAllTasks().getValue().isEmpty()) {
-            for(Task task: this.taskDao.getAllTasks().getValue()) {
+        if(this.taskDao.getAllTasks() != null && !this.taskDao.getAllTasks().isEmpty()) {
+            for(Task task: this.taskDao.getAllTasks()) {
                 TaskVO taskVO = new TaskVO(task.getId(),
                         new RetrieveProjectById(this.projectQuery, task.getProjectId()),
                         task.getName(),
@@ -39,12 +34,6 @@ public class SQLTaskQuery implements TaskQuery {
             }
         }
         return taskVOs;
-    }
-
-    public LiveData<List<TaskVO>> findAll() {
-        MutableLiveData<List<TaskVO>> mTaskVOs = new MutableLiveData<>();
-        mTaskVOs.setValue(this.retrieveAll());
-        return mTaskVOs;
     }
 
 }

@@ -18,7 +18,7 @@ public class SQLProjectQuery implements ProjectQuery {
 
     @Override
     public ProjectVO retrieveById(long projectId) {
-        Project project = this.projectDao.getProject(projectId).getValue();
+        Project project = this.projectDao.getProject(projectId);
         ProjectVO projectVO = null;
         if(project != null) {
             projectVO = new ProjectVO(project.getId());
@@ -26,9 +26,14 @@ public class SQLProjectQuery implements ProjectQuery {
         return projectVO;
     }
 
-    public LiveData<ProjectVO> findById(long projectId) {
-        MutableLiveData<ProjectVO> mProjectVO = new MutableLiveData<>();
-        mProjectVO.setValue(this.retrieveById(projectId));
-        return mProjectVO;
+    @Override
+    public ProjectVO[] retrieveAll() {
+        Project[] projects = this.projectDao.getProjects();
+        ProjectVO[] projectVOs = new ProjectVO[projects.length];
+        for(int i=0; i<projectVOs.length; i++) {
+            projectVOs[i] = new ProjectVO(projects[i].getId());
+        }
+        return projectVOs;
     }
+
 }

@@ -29,7 +29,7 @@ public class RetrieveTasksTest {
 
 
     @Test
-    public void shouldRetrieveEmptyListWhenThereIsNone() {
+    public void shouldBeEmptyListWhenThereIsNone() {
         InMemoryTaskQuery taskQuery = new InMemoryTaskQuery();
         assert(new RetrieveTasks(taskQuery).handle()).isEmpty();
     }

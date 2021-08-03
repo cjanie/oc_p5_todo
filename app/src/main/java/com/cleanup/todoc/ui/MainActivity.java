@@ -120,8 +120,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     protected void onResume() {
         super.onResume();
-        this.taskViewModel.getAllTasks().observe(this, tasks -> {
+        this.taskViewModel.listTasks().observe(this, tasks -> {
             System.out.println("Number of tasks in db : " + tasks.size());
+        });
+        this.taskViewModel.getProjects().observe(this, projects -> {
+            System.out.println("Number of projects in db : " + projects.length);
         });
     }
 
