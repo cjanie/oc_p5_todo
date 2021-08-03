@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.cleanup.todoc.adapters.secondary.SQLTaskQuery;
 import com.cleanup.todoc.businesslogic.usecases.RetrieveTasks;
 import com.cleanup.todoc.businesslogic.usecases.TaskVO;
 
@@ -11,15 +12,13 @@ import java.util.List;
 
 public class TaskViewModel extends ViewModel {
 
-    private RetrieveTasks retrieveTasks;
+    private SQLTaskQuery sqlTaskQuery;
 
-    public TaskViewModel(RetrieveTasks retrieveTasks) {
-        this.retrieveTasks = retrieveTasks;
+    public TaskViewModel(SQLTaskQuery sqlTaskQuery) {
+        this.sqlTaskQuery = sqlTaskQuery;
     }
 
     public LiveData<List<TaskVO>> getAllTasks() {
-        MutableLiveData<List<TaskVO>> taskVOs = new MutableLiveData<>();
-        taskVOs.setValue(this.retrieveTasks.handle());
-        return taskVOs;
+        return this.sqlTaskQuery.findAll();
     }
 }

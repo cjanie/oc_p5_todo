@@ -19,11 +19,7 @@ public class Injection {
         return new SQLTaskQuery(dataBase.taskDao(), Injection.provideSQLProjectQuery(context));
     }
 
-    public static RetrieveTasks provideRetrieveTasks(Context context) {
-        return new RetrieveTasks(Injection.provideSQLTaskQuery(context));
-    }
-
     public static TaskViewModelFactory provideTaskViewModelFactory(Context context) {
-        return new TaskViewModelFactory(Injection.provideRetrieveTasks(context));
+        return new TaskViewModelFactory(Injection.provideSQLTaskQuery(context));
     }
 }
