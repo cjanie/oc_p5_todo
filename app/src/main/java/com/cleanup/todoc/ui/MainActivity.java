@@ -1,5 +1,6 @@
 package com.cleanup.todoc.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.adapters.primary.androidapp.controllers.TaskViewModel;
+import com.cleanup.todoc.adapters.primary.injections.Injection;
+import com.cleanup.todoc.adapters.primary.injections.TaskViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
@@ -32,6 +36,8 @@ import java.util.Date;
  * @author Gaëtan HERFRAY
  */
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
+
+    private TaskViewModel taskViewModel;
     /**
      * List of all projects available in the application
      */
@@ -92,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        TaskViewModelFactory taskViewModelFactory = Injection.provideTaskViewModelFactory(this);
+        this.taskViewModel = ViewModelProviders.of(this, taskViewModelFactory).get(TaskViewModel.class);
+
         setContentView(R.layout.activity_main);
 
         listTasks = findViewById(R.id.list_tasks);
@@ -105,6 +114,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             public void onClick(View view) {
                 showAddTaskDialog();
             }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.taskViewModel.getAllTasks().observe(this, tasks -> {
+            System.out.println("Number of tasks in db : " + tasks.size());
         });
     }
 
