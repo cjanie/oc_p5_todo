@@ -17,7 +17,7 @@ public class RetrieveProjectByIdTest {
     private final ProjectVO projectVO2 = new ProjectVO(2l);
 
     @Test
-    public void shouldReturnNullWhenProjectDoNotExist() {
+    public void shouldReturnNullWhenProjectDoesNotExist() {
         InMemoryProjectQuery projectQuery = new InMemoryProjectQuery();
         assertNull(new RetrieveProjectById(projectQuery, 1l).handle());
         this.initWithSomeProjects(Arrays.asList(new ProjectVO[] {this.projectVO1, this.projectVO2}));
