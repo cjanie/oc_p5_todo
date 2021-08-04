@@ -23,7 +23,20 @@ public class TaskVO {
         this.creationTimestamp = creationTimestamp;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public ProjectVO getProjectVO() {
         return projectVO;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 }

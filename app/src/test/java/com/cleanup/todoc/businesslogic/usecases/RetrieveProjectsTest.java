@@ -10,8 +10,8 @@ import java.util.List;
 public class RetrieveProjectsTest {
 
     private final InMemoryProjectQuery projectQuery = new InMemoryProjectQuery();
-    private final ProjectVO projectVO1 = new ProjectVO(1l);
-    private final ProjectVO projectVO2 = new ProjectVO(2l);
+    private final ProjectVO projectVO1 = new ProjectVO(1l, "projet1", 10);
+    private final ProjectVO projectVO2 = new ProjectVO(2l, "projet2", 20);
 
     @Test
     public void shouldBeEmptyWhenThereIsNone() {

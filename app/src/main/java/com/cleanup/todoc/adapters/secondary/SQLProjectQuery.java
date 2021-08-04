@@ -21,7 +21,7 @@ public class SQLProjectQuery implements ProjectQuery {
         Project project = this.projectDao.getProject(projectId);
         ProjectVO projectVO = null;
         if(project != null) {
-            projectVO = new ProjectVO(project.getId());
+            projectVO = new ProjectVO(project.getId(), project.getName(), project.getColor());
         }
         return projectVO;
     }
@@ -31,7 +31,7 @@ public class SQLProjectQuery implements ProjectQuery {
         Project[] projects = this.projectDao.getProjects();
         ProjectVO[] projectVOs = new ProjectVO[projects.length];
         for(int i=0; i<projectVOs.length; i++) {
-            projectVOs[i] = new ProjectVO(projects[i].getId());
+            projectVOs[i] = new ProjectVO(projects[i].getId(), projects[i].getName(), projects[i].getColor());
         }
         return projectVOs;
     }
