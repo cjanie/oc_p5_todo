@@ -5,7 +5,7 @@ import com.cleanup.todoc.read.businesslogic.gateways.queries.TaskQuery;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjectById;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.database.dao.TaskDao;
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 
 import java.util.ArrayList;
 import java.util.List;

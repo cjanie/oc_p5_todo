@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 
 import java.util.List;
 

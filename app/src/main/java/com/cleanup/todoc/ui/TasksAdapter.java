@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
-import com.cleanup.todoc.model.Task;
 
 import java.util.List;
 

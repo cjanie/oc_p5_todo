@@ -1,6 +1,6 @@
 package com.cleanup.todoc.write.businesslogic.gateways.commands;
 
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 
 public interface TaskCommand {
 

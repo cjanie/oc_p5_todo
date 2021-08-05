@@ -1,6 +1,6 @@
 package com.cleanup.todoc.write.adapters.secondary;
 
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;
 
 import java.util.ArrayList;

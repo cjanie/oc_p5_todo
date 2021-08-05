@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjects;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasks;

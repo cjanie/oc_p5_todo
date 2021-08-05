@@ -23,7 +23,7 @@ import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.ui.injections.Injection;
 import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;

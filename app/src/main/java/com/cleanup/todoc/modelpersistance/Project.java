@@ -1,10 +1,9 @@
-package com.cleanup.todoc.model;
+package com.cleanup.todoc.modelpersistance;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 /**
  * <p>Models for project in which tasks are included.</p>

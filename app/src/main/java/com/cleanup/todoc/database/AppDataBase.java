@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 
 import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.database.dao.TaskDao;
-import com.cleanup.todoc.model.Project;
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Project;
+import com.cleanup.todoc.modelpersistance.Task;
 
 @Database(entities = {Task.class, Project.class}, version = 1, exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {

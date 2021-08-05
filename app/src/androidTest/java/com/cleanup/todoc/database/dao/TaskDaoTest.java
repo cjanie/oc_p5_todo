@@ -5,8 +5,8 @@ import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 
 import com.cleanup.todoc.database.AppDataBase;
-import com.cleanup.todoc.model.Project;
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Project;
+import com.cleanup.todoc.modelpersistance.Task;
 
 import org.junit.After;
 import org.junit.Before;

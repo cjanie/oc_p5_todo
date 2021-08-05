@@ -1,6 +1,6 @@
 package com.cleanup.todoc.write.businesslogic.usecases;
 
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;
 
 public class AddTask {

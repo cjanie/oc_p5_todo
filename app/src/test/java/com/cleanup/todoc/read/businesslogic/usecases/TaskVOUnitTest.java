@@ -1,10 +1,7 @@
 package com.cleanup.todoc.read.businesslogic.usecases;
 
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.read.adapters.secondary.InMemoryProjectQuery;
-import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
-import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjectById;
-import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +9,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

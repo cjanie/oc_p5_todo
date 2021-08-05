@@ -3,7 +3,7 @@ package com.cleanup.todoc.read.adapters.secondary;
 import com.cleanup.todoc.read.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.database.dao.ProjectDao;
-import com.cleanup.todoc.model.Project;
+import com.cleanup.todoc.modelpersistance.Project;
 
 public class SQLProjectQuery implements ProjectQuery {
 

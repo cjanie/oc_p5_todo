@@ -1,14 +1,10 @@
-package com.cleanup.todoc.model;
+package com.cleanup.todoc.modelpersistance;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-
-import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
-
-import java.util.Comparator;
 
 /**
  * <p>Model for the tasks of the application.</p>

@@ -1,7 +1,7 @@
 package com.cleanup.todoc.write.adapters.secondary;
 
 import com.cleanup.todoc.database.dao.TaskDao;
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;
 
 public class SQLTaskCommand implements TaskCommand {
