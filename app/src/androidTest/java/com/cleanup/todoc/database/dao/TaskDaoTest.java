@@ -4,7 +4,6 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 
-import com.cleanup.todoc.LiveDataTestUtil;
 import com.cleanup.todoc.database.AppDataBase;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -45,13 +44,13 @@ public class TaskDaoTest {
         // BEFORE: Insert a new project
         this.appDataBase.projectDao().createProject(this.PROJECT_DEMO);
         // TEST
-        Project project = LiveDataTestUtil.getValue(this.appDataBase.projectDao().getProject(this.PROJECT_ID));
+        Project project = this.appDataBase.projectDao().getProject(this.PROJECT_ID);
         assertTrue(project.getName().equals(this.PROJECT_DEMO.getName()) && project.getId() == this.PROJECT_ID);
     }
 
     @Test
     public void getTasksWhenNoTaskInserted() throws InterruptedException {
-        List<Task> tasks = LiveDataTestUtil.getValue(this.appDataBase.taskDao().getTasks(this.PROJECT_ID));
+        List<Task> tasks = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID);
         assertTrue(tasks.isEmpty());
     }
 
@@ -59,12 +58,12 @@ public class TaskDaoTest {
     public void insertAndGetTasks() throws InterruptedException {
         // BEFORE: Add demo project & demo tasks
         this.appDataBase.projectDao().createProject(this.PROJECT_DEMO);
-        this.appDataBase.taskDao().insertTask(this.NEW_TASK_DATALAYER);
-        this.appDataBase.taskDao().insertTask(this.NEW_TASK_VIEW_MODEL);
-        this.appDataBase.taskDao().insertTask(this.NEW_TASK_REFACTOR);
+        this.appDataBase.taskDao().create(this.NEW_TASK_DATALAYER);
+        this.appDataBase.taskDao().create(this.NEW_TASK_VIEW_MODEL);
+        this.appDataBase.taskDao().create(this.NEW_TASK_REFACTOR);
 
         // TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.appDataBase.taskDao().getTasks(this.PROJECT_ID));
+        List<Task> tasks = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID);
         assertTrue(tasks.size() == 3);
     }
 
@@ -72,13 +71,13 @@ public class TaskDaoTest {
     public void insertAndUpdateTask() throws InterruptedException {
         // BEFORE: Add demo project & demo tasks. Next, update task added & re-save it
         this.appDataBase.projectDao().createProject(this.PROJECT_DEMO);
-        this.appDataBase.taskDao().insertTask(NEW_TASK_DATALAYER);
-        Task taskAdded = LiveDataTestUtil.getValue(this.appDataBase.taskDao().getTasks(this.PROJECT_ID)).get(0);
+        this.appDataBase.taskDao().create(NEW_TASK_DATALAYER);
+        Task taskAdded = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID).get(0);
         taskAdded.setName("develop Datalayer and Test");
-        this.appDataBase.taskDao().updateTask(taskAdded);
+        this.appDataBase.taskDao().create(taskAdded);
 
         // TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.appDataBase.taskDao().getTasks(this.PROJECT_ID));
+        List<Task> tasks = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID);
         assertTrue(tasks.size() == 1 && tasks.get(0).getName().equals("develop Datalayer and Test"));
     }
 
@@ -86,12 +85,12 @@ public class TaskDaoTest {
     public void insertAndDeleteTask() throws InterruptedException {
         // BEFORE: Add demo project & demo task. Next get the task added & delete it
         this.appDataBase.projectDao().createProject(this.PROJECT_DEMO);
-        this.appDataBase.taskDao().insertTask(this.NEW_TASK_DATALAYER);
-        Task taskAdded = LiveDataTestUtil.getValue(this.appDataBase.taskDao().getTasks(this.PROJECT_ID)).get(0);
-        this.appDataBase.taskDao().deleteTask(taskAdded.getId());
+        this.appDataBase.taskDao().create(this.NEW_TASK_DATALAYER);
+        Task taskAdded = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID).get(0);
+        this.appDataBase.taskDao().deleteById(taskAdded.getId());
 
         // TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.appDataBase.taskDao().getTasks(this.PROJECT_ID));
+        List<Task> tasks = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID);
         assertTrue(tasks.isEmpty());
     }
 
