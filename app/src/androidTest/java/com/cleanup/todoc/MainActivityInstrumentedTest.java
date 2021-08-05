@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.cleanup.todoc.ui.MainActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,14 +32,33 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityInstrumentedTest {
+
+    private MainActivity activity;
+
+    private RecyclerView listTasks;
+
     @Rule
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
 
+    @Before
+    public void setUp() {
+        this.activity = rule.getActivity();
+        this.listTasks = this.activity.findViewById(R.id.list_tasks);
+        this.clearDB();
+    }
+
+    private void clearDB() {
+        int count = this.listTasks.getAdapter().getItemCount();
+        if(count > 0) {
+            for(int i=0; i<count; i++ ) {
+                onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.img_delete)).perform(click());
+            }
+        }
+    }
+
     @Test
     public void addAndRemoveTask() {
-        MainActivity activity = rule.getActivity();
-        TextView lblNoTask = activity.findViewById(R.id.lbl_no_task);
-        RecyclerView listTasks = activity.findViewById(R.id.list_tasks);
+        TextView lblNoTask = this.activity.findViewById(R.id.lbl_no_task);
 
         onView(withId(R.id.fab_add_task)).perform(click());
         onView(withId(R.id.txt_task_name)).perform(replaceText("Tâche example"));
@@ -119,4 +140,5 @@ public class MainActivityInstrumentedTest {
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
                 .check(matches(withText("aaa Tâche example")));
     }
+
 }
