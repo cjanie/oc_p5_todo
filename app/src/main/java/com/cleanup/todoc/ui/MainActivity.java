@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.ui.injections.Injection;
 import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
@@ -228,16 +229,16 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 listTasks.setVisibility(View.VISIBLE);
                 switch (sortMethod) {
                     case ALPHABETICAL:
-                        Collections.sort(tasks, new Task.TaskAZComparator());
+                        Collections.sort(tasks, new TaskVO.TaskAZComparator());
                         break;
                     case ALPHABETICAL_INVERTED:
-                        Collections.sort(tasks, new Task.TaskZAComparator());
+                        Collections.sort(tasks, new TaskVO.TaskZAComparator());
                         break;
                     case RECENT_FIRST:
-                        Collections.sort(tasks, new Task.TaskRecentComparator());
+                        Collections.sort(tasks, new TaskVO.TaskRecentComparator());
                         break;
                     case OLD_FIRST:
-                        Collections.sort(tasks, new Task.TaskOldComparator());
+                        Collections.sort(tasks, new TaskVO.TaskOldComparator());
                         break;
                 }
                 adapter.updateTasks(tasks);
