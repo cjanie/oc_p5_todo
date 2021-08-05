@@ -5,9 +5,8 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.cleanup.todoc.businesslogic.usecases.TaskVO;
+import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 
 import java.util.Comparator;
 

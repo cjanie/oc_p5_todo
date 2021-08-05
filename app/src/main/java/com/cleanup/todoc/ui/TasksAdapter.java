@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.businesslogic.usecases.ProjectVO;
-import com.cleanup.todoc.businesslogic.usecases.TaskVO;
-import com.cleanup.todoc.model.Project;
+import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
+import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.model.Task;
 
 import java.util.List;
@@ -76,12 +75,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
      * Listener for deleting tasks
      */
     public interface DeleteTaskListener {
-        /**
-         * Called when a task needs to be deleted.
-         *
-         * @param task the task that needs to be deleted
-         */
-        void onDeleteTask(Task task);
+
+        void onDeleteTask(long id);
     }
 
     /**
@@ -135,8 +130,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                 @Override
                 public void onClick(View view) {
                     final Object tag = view.getTag();
-                    if (tag instanceof Task) {
-                        TaskViewHolder.this.deleteTaskListener.onDeleteTask((Task) tag);
+                    if (tag instanceof TaskVO) {
+                        long id = ((TaskVO) tag).getId();
+                        TaskViewHolder.this.deleteTaskListener.onDeleteTask(id);
                     }
                 }
             });

@@ -46,12 +46,19 @@ public abstract class AppDataBase extends RoomDatabase {
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
 
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("id", 1L);
-                contentValues.put("name", "Projet Tartampion");
-                contentValues.put("color", 0xFFEADAD1);
+                Project[] projects = new Project[] {
+                        new Project(1L, "Projet Tartampion", 0xFFEADAD1),
+                        new Project(2L, "Projet Lucidia", 0xFFB4CDBA),
+                        new Project(3L, "Projet Circus", 0xFFA3CED2),
+                };
 
-                db.insert("Project", OnConflictStrategy.IGNORE, contentValues);
+                for(Project project: projects) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("id", project.getId());
+                    contentValues.put("name", project.getName());
+                    contentValues.put("color", project.getColor());
+                    db.insert("Project", OnConflictStrategy.IGNORE, contentValues);
+                }
             }
         };
     }

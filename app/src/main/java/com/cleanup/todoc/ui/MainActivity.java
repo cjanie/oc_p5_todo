@@ -19,11 +19,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.adapters.primary.androidapp.controllers.TaskViewModel;
-import com.cleanup.todoc.adapters.primary.injections.Injection;
-import com.cleanup.todoc.adapters.primary.injections.TaskViewModelFactory;
-import com.cleanup.todoc.businesslogic.usecases.ProjectVO;
-import com.cleanup.todoc.model.Project;
+import com.cleanup.todoc.ui.injections.Injection;
+import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
+import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.model.Task;
 
 import java.util.ArrayList;
@@ -140,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     @Override
-    public void onDeleteTask(Task task) {
-        // TODO tasks.remove(task);
+    public void onDeleteTask(long id) {
+        this.taskViewModel.deleteTask(id);
         this.updateTasks();
     }
 
@@ -212,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        // TODO tasks.add(task);
+        this.taskViewModel.addTask(task);
         updateTasks();
     }
 
@@ -307,25 +305,10 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all possible sort methods for task
      */
     private enum SortMethod {
-        /**
-         * Sort alphabetical by name
-         */
         ALPHABETICAL,
-        /**
-         * Inverted sort alphabetical by name
-         */
         ALPHABETICAL_INVERTED,
-        /**
-         * Lastly created first
-         */
         RECENT_FIRST,
-        /**
-         * First created first
-         */
         OLD_FIRST,
-        /**
-         * No sort
-         */
         NONE
     }
 }
