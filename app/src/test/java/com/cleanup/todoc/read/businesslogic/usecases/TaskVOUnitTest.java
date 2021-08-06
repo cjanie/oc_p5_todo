@@ -41,7 +41,7 @@ public class TaskVOUnitTest {
         TaskVO taskVO = null;
         if(task != null) {
             RetrieveProjectById retrieveProjectById = new RetrieveProjectById(this.projectQuery, task.getProjectId());
-            taskVO = new TaskVO(task.getId(), retrieveProjectById, task.getName(), task.getCreationTimestamp());
+            taskVO = new TaskVO(task.getId(), retrieveProjectById.handle(), task.getName(), task.getCreationTimestamp());
         }
         return taskVO;
     }

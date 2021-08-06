@@ -1,7 +1,9 @@
 package com.cleanup.todoc.read.adapters.secondary;
 
+import com.cleanup.todoc.modelpersistance.Project;
 import com.cleanup.todoc.read.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.read.businesslogic.gateways.queries.TaskQuery;
+import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjectById;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.database.dao.TaskDao;
@@ -26,10 +28,8 @@ public class SQLTaskQuery implements TaskQuery {
         List<TaskVO> taskVOs = new ArrayList<>();
         if(this.taskDao.findAll() != null && !this.taskDao.findAll().isEmpty()) {
             for(Task task: this.taskDao.findAll()) {
-                TaskVO taskVO = new TaskVO(task.getId(),
-                        new RetrieveProjectById(this.projectQuery, task.getProjectId()),
-                        task.getName(),
-                        task.getCreationTimestamp());
+                ProjectVO projectVO = this.projectQuery.retrieveById(task.getProjectId());
+                TaskVO taskVO = new TaskVO(task.getId(), projectVO, task.getName(), task.getCreationTimestamp());
                 taskVOs.add(taskVO);
             }
         }
@@ -41,14 +41,20 @@ public class SQLTaskQuery implements TaskQuery {
         List<TaskVO> taskVOs = new ArrayList<>();
         if(!this.taskDao.getTasksByProjectId(projectId).isEmpty()) {
             for(Task task: this.taskDao.getTasksByProjectId(projectId)) {
-                TaskVO taskVO = new TaskVO(task.getId(),
-                        new RetrieveProjectById(this.projectQuery, task.getProjectId()),
-                        task.getName(),
-                        task.getCreationTimestamp());
+                TaskVO taskVO = this.formatTaskToTaskVO(task);
                 taskVOs.add(taskVO);
             }
         }
         return taskVOs;
+    }
+
+    private TaskVO formatTaskToTaskVO(Task task) {
+        TaskVO taskVO = null;
+        if(task != null) {
+            ProjectVO projectVO = this.projectQuery.retrieveById(task.getProjectId());
+            taskVO = new TaskVO(task.getId(), projectVO, task.getName(), task.getCreationTimestamp());
+        }
+        return taskVO;
     }
 
 }
