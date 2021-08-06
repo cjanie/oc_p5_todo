@@ -10,10 +10,12 @@ import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjects;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasks;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasksByProject;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
+import com.cleanup.todoc.read.businesslogic.usecases.enums.SearchMethod;
 import com.cleanup.todoc.read.businesslogic.usecases.enums.SortMethod;
 import com.cleanup.todoc.write.businesslogic.usecases.AddTask;
 import com.cleanup.todoc.write.businesslogic.usecases.DeleteTask;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class TaskViewModel extends ViewModel {
         return mProjectVO;
     }
 
-    public void addTask(Task task) {
+    public void addTask(TaskVO task) {
         this.addTask.handle(task);
     }
 
@@ -76,11 +78,17 @@ public class TaskViewModel extends ViewModel {
             case OLD_FIRST:
                 Collections.sort(tasks, new TaskVO.TaskOldComparator());
                 break;
-            case BY_PROJECT:
-                tasks = this.retrieveTasksByProject.handle();
-                break;
         }
         return tasks;
     }
+
+    public LiveData<List<TaskVO>> searchByProject(long projectId) {
+        MutableLiveData<List<TaskVO>> mtasks = new MutableLiveData<>();
+        List<TaskVO> tasks = this.retrieveTasksByProject.handle(projectId);
+        mtasks.setValue(tasks);
+        return mtasks;
+    }
+
+
 
 }

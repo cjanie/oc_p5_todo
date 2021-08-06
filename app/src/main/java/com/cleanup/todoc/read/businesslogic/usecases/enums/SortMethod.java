@@ -5,6 +5,5 @@ public enum SortMethod {
     ALPHABETICAL_INVERTED,
     RECENT_FIRST,
     OLD_FIRST,
-    NONE,
-    BY_PROJECT
+    NONE
 }

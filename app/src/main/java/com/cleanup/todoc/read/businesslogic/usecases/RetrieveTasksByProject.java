@@ -12,15 +12,12 @@ public class RetrieveTasksByProject {
 
     private TaskQuery taskQuery;
 
-    private long projectId;
-
-    public RetrieveTasksByProject(TaskQuery taskQuery, long projectId) {
+    public RetrieveTasksByProject(TaskQuery taskQuery) {
         this.taskQuery = taskQuery;
-        this.projectId = projectId;
     }
 
-    public List<TaskVO> handle() {
-        List<TaskVO> taskVOs = this.taskQuery.retrieveTasksByProject(this.projectId);
+    public List<TaskVO> handle(long projectId) {
+        List<TaskVO> taskVOs = this.taskQuery.retrieveTasksByProject(projectId);
         return taskVOs;
     }
 }

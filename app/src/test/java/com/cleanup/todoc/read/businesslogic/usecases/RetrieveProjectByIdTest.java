@@ -18,9 +18,9 @@ public class RetrieveProjectByIdTest {
     @Test
     public void shouldReturnNullWhenProjectDoesNotExist() {
         InMemoryProjectQuery projectQuery = new InMemoryProjectQuery();
-        assertNull(new RetrieveProjectById(projectQuery, 1l).handle());
+        assertNull(new RetrieveProjectById(projectQuery).handle(1l));
         this.initWithSomeProjects(Arrays.asList(new ProjectVO[] {this.projectVO1, this.projectVO2}));
-        assertNull(new RetrieveProjectById(this.projectQuery, 3l).handle());
+        assertNull(new RetrieveProjectById(this.projectQuery).handle(3l));
     }
 
     @Test
@@ -34,6 +34,6 @@ public class RetrieveProjectByIdTest {
     }
 
     private void assertRetrievedProject(ProjectVO projectVO) {
-        assert(new RetrieveProjectById(projectQuery, projectVO.getId()).handle().getId() == projectVO.getId());
+        assert(new RetrieveProjectById(projectQuery).handle(projectVO.getId()).getId() == projectVO.getId());
     }
 }

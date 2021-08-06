@@ -46,7 +46,7 @@ public class Injection {
     }
 
     public static RetrieveTasksByProject provideRetrieveTaskByProject(Context context) {
-        return new RetrieveTasksByProject(Injection.provideSQLTaskQuery(context), 1);
+        return new RetrieveTasksByProject(Injection.provideSQLTaskQuery(context));
     }
 
     public static TaskViewModelFactory provideTaskViewModelFactory(Context context) {

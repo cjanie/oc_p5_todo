@@ -2,6 +2,7 @@ package com.cleanup.todoc.write.adapters.secondary;
 
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.modelpersistance.Task;
+import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;
 
 public class SQLTaskCommand implements TaskCommand {
@@ -13,8 +14,12 @@ public class SQLTaskCommand implements TaskCommand {
     }
 
     @Override
-    public void add(Task task) {
-        this.taskDao.create(task);
+    public void add(TaskVO task) {
+        if(task != null) {
+            Task t = new Task(task.getId(), task.getProjectVO().getId(), task.getName(), task.getCreationTimestamp());
+            this.taskDao.create(t);
+        }
+
     }
 
     @Override

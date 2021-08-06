@@ -29,17 +29,17 @@ public class RetrieveTasksByProjectTest {
 
     @Test
     public void shouldRetrieve1TaskIfProjectHas1Task() {
-        assert(new RetrieveTasksByProject(this.taskQuery, 1l).handle().size() == 0);
+        assert(new RetrieveTasksByProject(this.taskQuery).handle(1l).size() == 0);
         this.initWithSomeTasks(Arrays.asList(new TaskVO[] {this.taskVO1}));
-        assert(new RetrieveTasksByProject(this.taskQuery, 1l).handle().size() == 1);
+        assert(new RetrieveTasksByProject(this.taskQuery).handle(1l).size() == 1);
     }
 
     @Test
     public void shoudlRetrieve2TasksIfProjectHas2Tasks() {
         this.initWithSomeTasks(Arrays.asList(new TaskVO[] {this.taskVO1, this.taskVO2}));
-        assert(new RetrieveTasksByProject(taskQuery, 1l).handle().size() == 2);
+        assert(new RetrieveTasksByProject(taskQuery).handle(1l).size() == 2);
         this.initWithSomeTasks(Arrays.asList(new TaskVO[] {this.taskVO1, this.taskVO2, this.taskVO3}));
-        assert(new RetrieveTasksByProject(taskQuery, 1l).handle().size() == 2);
+        assert(new RetrieveTasksByProject(taskQuery).handle(1l).size() == 2);
     }
 
     private void initWithSomeTasks(List<TaskVO> taskVOs) {
