@@ -5,14 +5,12 @@ import com.cleanup.todoc.read.businesslogic.gateways.queries.ProjectQuery;
 public class RetrieveProjectById {
 
     private ProjectQuery projectQuery;
-    private long projectId;
 
-    public RetrieveProjectById(ProjectQuery projectQuery, long projectId) {
+    public RetrieveProjectById(ProjectQuery projectQuery) {
         this.projectQuery = projectQuery;
-        this.projectId = projectId;
     }
 
-    public ProjectVO handle() {
-        return this.projectQuery.retrieveById(this.projectId);
+    public ProjectVO handle(long projectId) {
+        return this.projectQuery.retrieveById(projectId);
     }
 }

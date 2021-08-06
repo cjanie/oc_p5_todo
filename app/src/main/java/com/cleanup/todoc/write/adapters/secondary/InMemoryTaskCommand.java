@@ -1,6 +1,7 @@
 package com.cleanup.todoc.write.adapters.secondary;
 
 import com.cleanup.todoc.modelpersistance.Task;
+import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;
 
 import java.util.ArrayList;
@@ -8,14 +9,14 @@ import java.util.List;
 
 public class InMemoryTaskCommand implements TaskCommand {
 
-    List<Task> tasks;
+    List<TaskVO> tasks;
 
     public InMemoryTaskCommand() {
         this.tasks = new ArrayList<>();
     }
 
     @Override
-    public void add(Task task) {
+    public void add(TaskVO task) {
         this.tasks.add(task);
     }
 
@@ -31,7 +32,7 @@ public class InMemoryTaskCommand implements TaskCommand {
         }
     }
 
-    public List<Task> getTasks() {
+    public List<TaskVO> getTasks() {
         return tasks;
     }
 }

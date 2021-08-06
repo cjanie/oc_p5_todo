@@ -12,21 +12,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
+import com.cleanup.todoc.read.businesslogic.usecases.enums.SearchMethod;
+import com.cleanup.todoc.read.businesslogic.usecases.enums.SortMethod;
 import com.cleanup.todoc.ui.injections.Injection;
 import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.modelpersistance.Task;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     @NonNull
     private SortMethod sortMethod = SortMethod.NONE;
+
+    private SearchMethod searchMethod = SearchMethod.NONE;
 
     /**
      * Dialog to create a new task
@@ -125,15 +130,21 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         int id = item.getItemId();
 
         if (id == R.id.filter_alphabetical) {
-            sortMethod = SortMethod.ALPHABETICAL;
+            this.sortMethod = SortMethod.ALPHABETICAL;
+            this.updateTasks();
         } else if (id == R.id.filter_alphabetical_inverted) {
-            sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+            this.sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+            this.updateTasks();
         } else if (id == R.id.filter_oldest_first) {
-            sortMethod = SortMethod.OLD_FIRST;
+            this.sortMethod = SortMethod.OLD_FIRST;
+            this.updateTasks();
         } else if (id == R.id.filter_recent_first) {
-            sortMethod = SortMethod.RECENT_FIRST;
+            this.sortMethod = SortMethod.RECENT_FIRST;
+            this.updateTasks();
+        } else if(id == R.id.filter_by_project) {
+            this.searchMethod = SearchMethod.BY_PROJECT;
+            this.showProjectsDialog();
         }
-        this.updateTasks();
 
         return super.onOptionsItemSelected(item);
     }
@@ -168,8 +179,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             // If both project and name of the task have been set
             else if (taskProject != null) {
 
-                Task task = new Task(
-                        taskProject.getId(),
+                TaskVO task = new TaskVO(
+                        0l,
+                        taskProject,
                         taskName,
                         new Date().getTime()
                 );
@@ -194,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void showAddTaskDialog() {
         final AlertDialog dialog = getAddTaskDialog();
-
         dialog.show();
 
         dialogEditText = dialog.findViewById(R.id.txt_task_name);
@@ -205,54 +216,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     }
 
-    /**
-     * Adds the given task to the list of created tasks.
-     *
-     * @param task the task to be added to the list
-     */
-    private void addTask(@NonNull Task task) {
-        this.taskViewModel.addTask(task);
-        updateTasks();
-    }
-
-    /**
-     * Updates the list of tasks in the UI
-     */
-    private void updateTasks() {
-        this.taskViewModel.listTasks().observe(this, tasks -> {
-
-            if (tasks.size() == 0) {
-                lblNoTasks.setVisibility(View.VISIBLE);
-                listTasks.setVisibility(View.GONE);
-            } else {
-                lblNoTasks.setVisibility(View.GONE);
-                listTasks.setVisibility(View.VISIBLE);
-                switch (sortMethod) {
-                    case ALPHABETICAL:
-                        Collections.sort(tasks, new TaskVO.TaskAZComparator());
-                        break;
-                    case ALPHABETICAL_INVERTED:
-                        Collections.sort(tasks, new TaskVO.TaskZAComparator());
-                        break;
-                    case RECENT_FIRST:
-                        Collections.sort(tasks, new TaskVO.TaskRecentComparator());
-                        break;
-                    case OLD_FIRST:
-                        Collections.sort(tasks, new TaskVO.TaskOldComparator());
-                        break;
-                }
-                adapter.updateTasks(tasks);
-            }
-
-        });
-
-    }
-
-    /**
-     * Returns the dialog allowing the user to create a new task.
-     *
-     * @return the dialog allowing the user to create a new task
-     */
     @NonNull
     private AlertDialog getAddTaskDialog() {
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.Dialog);
@@ -269,17 +232,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
         });
 
-        dialog = alertBuilder.create();
+        this.dialog = alertBuilder.create();
 
         // This instead of listener to positive button in order to avoid automatic dismiss
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
+        this.dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
-
                 Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 button.setOnClickListener(new View.OnClickListener() {
-
                     @Override
                     public void onClick(View view) {
                         onPositiveButtonClick(dialog);
@@ -302,14 +262,62 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         }
     }
 
+    private void addTask(@NonNull TaskVO task) {
+        this.taskViewModel.addTask(task);
+        this.updateTasks();
+    }
+
+    // --- filter functionnalities ----
+
     /**
-     * List of all possible sort methods for task
+     * Updates the list of tasks in the UI
      */
-    private enum SortMethod {
-        ALPHABETICAL,
-        ALPHABETICAL_INVERTED,
-        RECENT_FIRST,
-        OLD_FIRST,
-        NONE
+
+    private void updateTasks() {
+        this.taskViewModel.listTasks().observe(this, tasks -> {
+
+            if (tasks.size() == 0) {
+                lblNoTasks.setVisibility(View.VISIBLE);
+                listTasks.setVisibility(View.GONE);
+            } else {
+                lblNoTasks.setVisibility(View.GONE);
+                listTasks.setVisibility(View.VISIBLE);
+                this.taskViewModel.switchSortMethod(tasks, this.sortMethod);
+                this.adapter.updateTasks(tasks);
+            }
+        });
+    }
+
+    // --- search functionnality ---
+    private void showProjectsDialog() {
+        final AlertDialog dialog = this.getSearchByProjectDialog();
+        dialog.show();
+
+        GridView gridView = dialog.findViewById(R.id.projects_grid);
+        this.taskViewModel.getProjects().observe(this, projects -> {
+            ArrayAdapter<ProjectVO> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, projects);
+            gridView.setAdapter(adapter);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    searchByProject(adapter.getItem(i).getId());
+                }
+            });
+        });
+    }
+
+    private AlertDialog getSearchByProjectDialog() {
+        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.Dialog);
+        alertBuilder.setTitle(R.string.project);
+        alertBuilder.setView(R.layout.projects);
+        AlertDialog dialog = alertBuilder.create();
+        return dialog;
+    }
+
+    private void searchByProject(long projectId) {
+        this.taskViewModel.searchByProject(projectId).observe(this, tasks -> {
+            this.adapter = new TasksAdapter(tasks, this);
+            this.listTasks.setAdapter(this.adapter);
+        });
     }
 }

@@ -22,8 +22,8 @@ public class RetrieveTasksTest {
         this.taskQuery = new InMemoryTaskQuery();
         this.projectQuery = new InMemoryProjectQuery();
         this.projectQuery.setProjectVOs(Arrays.asList(new ProjectVO[] {new ProjectVO(1l, "projet1", 10), new ProjectVO(2l, "projet2", 20)}));
-        this.taskVO1 = new TaskVO(1l, new RetrieveProjectById(this.projectQuery, 1l), "Name", 10l);
-        this.taskVO2 = new TaskVO(2l, new RetrieveProjectById(this.projectQuery, 2l),"nom", 20l);
+        this.taskVO1 = new TaskVO(1l, this.projectQuery.retrieveById(1l), "Name", 10l);
+        this.taskVO2 = new TaskVO(2l, this.projectQuery.retrieveById(2l),"nom", 20l);
     }
 
 

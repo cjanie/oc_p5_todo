@@ -2,13 +2,13 @@ package com.cleanup.todoc.read.businesslogic.usecases;
 
 import android.support.annotation.NonNull;
 
+import com.cleanup.todoc.modelpersistance.Project;
+
 import java.util.Comparator;
 
 public class TaskVO {
 
     private long id;
-
-    private RetrieveProjectById retrieveProjectById;
 
     private ProjectVO projectVO;
 
@@ -17,10 +17,9 @@ public class TaskVO {
 
     private long creationTimestamp;
 
-    public TaskVO(long id, RetrieveProjectById retrieveProjectById, @NonNull String name, long creationTimestamp) {
+    public TaskVO(long id, ProjectVO projectVO, @NonNull String name, long creationTimestamp) {
         this.id = id;
-        this.retrieveProjectById = retrieveProjectById;
-        this.projectVO = this.retrieveProjectById.handle();
+        this.projectVO = projectVO;
         this.name = name;
         this.creationTimestamp = creationTimestamp;
     }
