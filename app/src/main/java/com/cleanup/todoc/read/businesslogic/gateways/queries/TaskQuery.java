@@ -7,4 +7,6 @@ import java.util.List;
 public interface TaskQuery {
 
     List<TaskVO> retrieveAll();
+
+    List<TaskVO> retrieveTasksByProject(long projectId);
 }

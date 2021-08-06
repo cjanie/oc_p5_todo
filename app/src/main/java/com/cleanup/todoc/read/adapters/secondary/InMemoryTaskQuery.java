@@ -19,6 +19,20 @@ public class InMemoryTaskQuery implements TaskQuery {
         return this.taskVOs;
     }
 
+    @Override
+    public List<TaskVO> retrieveTasksByProject(long projectId) {
+        // TODO
+        List<TaskVO> taskVOsFound = new ArrayList<>();
+        if(!this.retrieveAll().isEmpty()) {
+            for(TaskVO t: this.retrieveAll()) {
+                if(t.getProjectVO().getId() == projectId) {
+                    taskVOsFound.add(t);
+                };
+            }
+        }
+        return taskVOsFound;
+    }
+
     public void setTasks(List<TaskVO> taskVOs) {
         this.taskVOs = taskVOs;
     }

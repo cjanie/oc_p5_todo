@@ -36,4 +36,19 @@ public class SQLTaskQuery implements TaskQuery {
         return taskVOs;
     }
 
+    @Override
+    public List<TaskVO> retrieveTasksByProject(long projectId) {
+        List<TaskVO> taskVOs = new ArrayList<>();
+        if(!this.taskDao.getTasksByProjectId(projectId).isEmpty()) {
+            for(Task task: this.taskDao.getTasksByProjectId(projectId)) {
+                TaskVO taskVO = new TaskVO(task.getId(),
+                        new RetrieveProjectById(this.projectQuery, task.getProjectId()),
+                        task.getName(),
+                        task.getCreationTimestamp());
+                taskVOs.add(taskVO);
+            }
+        }
+        return taskVOs;
+    }
+
 }
