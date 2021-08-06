@@ -26,6 +26,10 @@
                 android:id="@+id/filter_recent_first"
                 android:title="@string/sort_recent_first"
                 app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/filter_by_project"
+                android:title="@string/project"
+                app:showAsAction="never|withText"/>
         </menu>
     </item>
 

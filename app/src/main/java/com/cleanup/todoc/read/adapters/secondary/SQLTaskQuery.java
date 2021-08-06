@@ -28,8 +28,7 @@ public class SQLTaskQuery implements TaskQuery {
         List<TaskVO> taskVOs = new ArrayList<>();
         if(this.taskDao.findAll() != null && !this.taskDao.findAll().isEmpty()) {
             for(Task task: this.taskDao.findAll()) {
-                ProjectVO projectVO = this.projectQuery.retrieveById(task.getProjectId());
-                TaskVO taskVO = new TaskVO(task.getId(), projectVO, task.getName(), task.getCreationTimestamp());
+                TaskVO taskVO = new FormatTaskToTaskVO(task, this.projectQuery).format();
                 taskVOs.add(taskVO);
             }
         }
@@ -41,20 +40,11 @@ public class SQLTaskQuery implements TaskQuery {
         List<TaskVO> taskVOs = new ArrayList<>();
         if(!this.taskDao.getTasksByProjectId(projectId).isEmpty()) {
             for(Task task: this.taskDao.getTasksByProjectId(projectId)) {
-                TaskVO taskVO = this.formatTaskToTaskVO(task);
+                TaskVO taskVO = new FormatTaskToTaskVO(task, this.projectQuery).format();
                 taskVOs.add(taskVO);
             }
         }
         return taskVOs;
-    }
-
-    private TaskVO formatTaskToTaskVO(Task task) {
-        TaskVO taskVO = null;
-        if(task != null) {
-            ProjectVO projectVO = this.projectQuery.retrieveById(task.getProjectId());
-            taskVO = new TaskVO(task.getId(), projectVO, task.getName(), task.getCreationTimestamp());
-        }
-        return taskVO;
     }
 
 }

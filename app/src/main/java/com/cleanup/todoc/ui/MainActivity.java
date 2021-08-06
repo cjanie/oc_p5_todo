@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
+import com.cleanup.todoc.read.businesslogic.usecases.enums.SearchMethod;
+import com.cleanup.todoc.read.businesslogic.usecases.enums.SortMethod;
 import com.cleanup.todoc.ui.injections.Injection;
 import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
@@ -28,6 +30,7 @@ import com.cleanup.todoc.modelpersistance.Task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Home activity of the application which is displayed when the user opens the app.</p>
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     @NonNull
     private SortMethod sortMethod = SortMethod.NONE;
+
+    private SearchMethod searchMethod = SearchMethod.NONE;
 
     /**
      * Dialog to create a new task
@@ -125,13 +130,15 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         int id = item.getItemId();
 
         if (id == R.id.filter_alphabetical) {
-            sortMethod = SortMethod.ALPHABETICAL;
+            this.sortMethod = SortMethod.ALPHABETICAL;
         } else if (id == R.id.filter_alphabetical_inverted) {
-            sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+            this.sortMethod = SortMethod.ALPHABETICAL_INVERTED;
         } else if (id == R.id.filter_oldest_first) {
-            sortMethod = SortMethod.OLD_FIRST;
+            this.sortMethod = SortMethod.OLD_FIRST;
         } else if (id == R.id.filter_recent_first) {
-            sortMethod = SortMethod.RECENT_FIRST;
+            this.sortMethod = SortMethod.RECENT_FIRST;
+        } else if(id == R.id.filter_by_project) {
+            this.sortMethod = SortMethod.BY_PROJECT;
         }
         this.updateTasks();
 
@@ -227,23 +234,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             } else {
                 lblNoTasks.setVisibility(View.GONE);
                 listTasks.setVisibility(View.VISIBLE);
-                switch (sortMethod) {
-                    case ALPHABETICAL:
-                        Collections.sort(tasks, new TaskVO.TaskAZComparator());
-                        break;
-                    case ALPHABETICAL_INVERTED:
-                        Collections.sort(tasks, new TaskVO.TaskZAComparator());
-                        break;
-                    case RECENT_FIRST:
-                        Collections.sort(tasks, new TaskVO.TaskRecentComparator());
-                        break;
-                    case OLD_FIRST:
-                        Collections.sort(tasks, new TaskVO.TaskOldComparator());
-                        break;
-                }
-                adapter.updateTasks(tasks);
+                this.taskViewModel.switchSortMethod(tasks, this.sortMethod);
+                this.adapter.updateTasks(tasks);
             }
-
         });
 
     }
@@ -300,16 +293,5 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         if (dialogSpinner != null) {
             dialogSpinner.setAdapter(adapter);
         }
-    }
-
-    /**
-     * List of all possible sort methods for task
-     */
-    private enum SortMethod {
-        ALPHABETICAL,
-        ALPHABETICAL_INVERTED,
-        RECENT_FIRST,
-        OLD_FIRST,
-        NONE
     }
 }

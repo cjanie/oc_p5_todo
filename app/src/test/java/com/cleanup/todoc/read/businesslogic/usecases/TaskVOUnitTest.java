@@ -1,6 +1,7 @@
 package com.cleanup.todoc.read.businesslogic.usecases;
 
 import com.cleanup.todoc.modelpersistance.Task;
+import com.cleanup.todoc.read.adapters.secondary.FormatTaskToTaskVO;
 import com.cleanup.todoc.read.adapters.secondary.InMemoryProjectQuery;
 
 import org.junit.Before;
@@ -37,15 +38,6 @@ public class TaskVOUnitTest {
         this.projectQuery.setProjectVOs(projectVOs);
     }
 
-    private TaskVO formatTaskToTaskVO(Task task) {
-        TaskVO taskVO = null;
-        if(task != null) {
-            RetrieveProjectById retrieveProjectById = new RetrieveProjectById(this.projectQuery, task.getProjectId());
-            taskVO = new TaskVO(task.getId(), retrieveProjectById.handle(), task.getName(), task.getCreationTimestamp());
-        }
-        return taskVO;
-    }
-
     @Test
     public void test_az_comparator() {
         final Task task1 = new Task(1, 1, "aaa", 123);
@@ -53,9 +45,9 @@ public class TaskVOUnitTest {
         final Task task3 = new Task(3, 3, "hhh", 125);
 
         final List<TaskVO> taskVOs = new ArrayList<>();
-        taskVOs.add((this.formatTaskToTaskVO(task1)));
-        taskVOs.add(this.formatTaskToTaskVO(task2));
-        taskVOs.add(this.formatTaskToTaskVO(task3));
+        taskVOs.add(new FormatTaskToTaskVO(task1, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task2, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task3, this.projectQuery).format());
 
         Collections.sort(taskVOs, new TaskVO.TaskAZComparator());
         assert(taskVOs.get(0).getId() == task1.getId());
@@ -70,9 +62,9 @@ public class TaskVOUnitTest {
         final Task task3 = new Task(3, 3, "hhh", 125);
 
         final List<TaskVO> taskVOs = new ArrayList<>();
-        taskVOs.add(this.formatTaskToTaskVO(task1));
-        taskVOs.add(this.formatTaskToTaskVO(task2));
-        taskVOs.add(this.formatTaskToTaskVO(task3));
+        taskVOs.add(new FormatTaskToTaskVO(task1, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task2, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task3, this.projectQuery).format());
 
         Collections.sort(taskVOs, new TaskVO.TaskZAComparator());
         assert(taskVOs.get(0).getId() == task2.getId());
@@ -87,9 +79,9 @@ public class TaskVOUnitTest {
         final Task task3 = new Task(3, 3, "hhh", 125);
 
         final List<TaskVO> taskVOs = new ArrayList<>();
-        taskVOs.add(this.formatTaskToTaskVO(task1));
-        taskVOs.add(this.formatTaskToTaskVO(task2));
-        taskVOs.add(this.formatTaskToTaskVO(task3));
+        taskVOs.add(new FormatTaskToTaskVO(task1, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task2, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task3, this.projectQuery).format());
 
         Collections.sort(taskVOs, new TaskVO.TaskRecentComparator());
         assert(taskVOs.get(0).getId() == task3.getId());
@@ -104,14 +96,15 @@ public class TaskVOUnitTest {
         final Task task3 = new Task(3, 3, "hhh", 125);
 
         final List<TaskVO> taskVOs = new ArrayList<>();
-        taskVOs.add(this.formatTaskToTaskVO(task1));
-        taskVOs.add(this.formatTaskToTaskVO(task2));
-        taskVOs.add(this.formatTaskToTaskVO(task3));
+        taskVOs.add(new FormatTaskToTaskVO(task1, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task2, this.projectQuery).format());
+        taskVOs.add(new FormatTaskToTaskVO(task3, this.projectQuery).format());
         Collections.sort(taskVOs, new TaskVO.TaskOldComparator());
 
         assert(taskVOs.get(0).getId() == task1.getId());
         assert(taskVOs.get(1).getId() == task2.getId());
         assert(taskVOs.get(2).getId() == task3.getId());
     }
+
 
 }

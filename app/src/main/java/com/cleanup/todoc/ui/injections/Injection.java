@@ -7,6 +7,7 @@ import com.cleanup.todoc.read.adapters.secondary.SQLTaskQuery;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjects;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasks;
 import com.cleanup.todoc.database.AppDataBase;
+import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasksByProject;
 import com.cleanup.todoc.write.adapters.secondary.SQLTaskCommand;
 import com.cleanup.todoc.write.businesslogic.usecases.AddTask;
 import com.cleanup.todoc.write.businesslogic.usecases.DeleteTask;
@@ -44,12 +45,17 @@ public class Injection {
         return new DeleteTask(provideSQLTaskCommand(context));
     }
 
+    public static RetrieveTasksByProject provideRetrieveTaskByProject(Context context) {
+        return new RetrieveTasksByProject(Injection.provideSQLTaskQuery(context), 1);
+    }
+
     public static TaskViewModelFactory provideTaskViewModelFactory(Context context) {
         return new TaskViewModelFactory(
                 Injection.provideRetrieveTasks(context),
                 Injection.provideRetrieveProjects(context),
                 Injection.provideAddTask(context),
-                Injection.provideDeleteTask(context)
+                Injection.provideDeleteTask(context),
+                Injection.provideRetrieveTaskByProject(context)
         );
     }
 }
