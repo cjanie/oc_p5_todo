@@ -308,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     private AlertDialog getSearchByProjectDialog() {
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.Dialog);
-        alertBuilder.setTitle(R.string.project);
         alertBuilder.setView(R.layout.projects);
         AlertDialog dialog = alertBuilder.create();
         return dialog;

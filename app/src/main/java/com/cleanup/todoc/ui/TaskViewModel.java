@@ -89,6 +89,4 @@ public class TaskViewModel extends ViewModel {
         return mtasks;
     }
 
-
-
 }

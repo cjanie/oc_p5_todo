@@ -1,5 +1,8 @@
 package com.cleanup.todoc;
 
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.matcher.RootMatchers;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +17,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.cleanup.todoc.TestUtils.withRecyclerView;
@@ -138,6 +143,37 @@ public class MainActivityInstrumentedTest {
                 .check(matches(withText("zzz Tâche example")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
                 .check(matches(withText("aaa Tâche example")));
+    }
+
+    @Test
+    public void searchByProjectTest() {
+        onView(withId(R.id.fab_add_task)).perform(click());
+        onView(withId(R.id.txt_task_name)).perform(replaceText("aaa Tâche example"));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.fab_add_task)).perform(click());
+        onView(withId(R.id.txt_task_name)).perform(replaceText("zzz Tâche example"));
+        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.fab_add_task)).perform(click());
+        onView(withId(R.id.txt_task_name)).perform(replaceText("hhh Tâche example"));
+        onView(withId(android.R.id.button1)).perform(click());
+
+        onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
+                .check(matches(withText("aaa Tâche example")));
+        onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
+                .check(matches(withText("zzz Tâche example")));
+        onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
+                .check(matches(withText("hhh Tâche example")));
+
+        onView(withId(R.id.action_filter)).perform(click());
+        onView(withText(R.string.project)).perform(click());
+
+        onView(withText("Projet Tartampion")).inRoot(RootMatchers.isDialog()).perform(click());
+        assert(this.listTasks.getAdapter().getItemCount() == 3);
+        onView(withText("Projet Lucidia")).inRoot(RootMatchers.isDialog()).perform(click());
+        assert(this.listTasks.getAdapter().getItemCount() == 0);
+        onView(withText("Projet Circus")).inRoot(RootMatchers.isDialog()).perform(click());
+        assert(this.listTasks.getAdapter().getItemCount() == 0);
+
     }
 
 }

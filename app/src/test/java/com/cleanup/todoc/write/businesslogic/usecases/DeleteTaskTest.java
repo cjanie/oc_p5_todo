@@ -1,6 +1,9 @@
 package com.cleanup.todoc.write.businesslogic.usecases;
 
+import com.cleanup.todoc.modelpersistance.Project;
 import com.cleanup.todoc.modelpersistance.Task;
+import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
+import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.write.adapters.secondary.InMemoryTaskCommand;
 
 import org.junit.Test;
@@ -9,8 +12,9 @@ public class DeleteTaskTest {
 
     @Test
     public void shouldDecrementListWhenTaskIsDeleted() {
-        Task task1 = new Task(1l, 1l, "task1", 10l);
-        Task task2 = new Task(2l, 1l, "task2", 20l);
+        ProjectVO project1 = new ProjectVO(1l, "p1", 6);
+        TaskVO task1 = new TaskVO(1l, project1, "task1", 10l);
+        TaskVO task2 = new TaskVO(2l, project1, "task2", 20l);
         InMemoryTaskCommand taskCommand = new InMemoryTaskCommand();
         new AddTask(taskCommand).handle(task1);
         new AddTask(taskCommand).handle(task2);
