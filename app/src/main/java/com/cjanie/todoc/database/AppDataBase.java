@@ -11,7 +11,6 @@ import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 
-import com.cjanie.todoc.R;
 import com.cjanie.todoc.database.dao.ProjectDao;
 import com.cjanie.todoc.database.dao.TaskDao;
 import com.cjanie.todoc.modelpersistance.Project;
