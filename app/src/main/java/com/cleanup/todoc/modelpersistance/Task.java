@@ -53,12 +53,7 @@ public class Task {
     public long getProjectId() {
         return this.projectId;
     }
-/*
-    @Nullable
-    public Project getProject() {
-        return Project.getProjectById(projectId);
-    } // TODO: refactor
-*/
+
     @NonNull
     public String getName() {
         return name;

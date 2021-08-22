@@ -13,6 +13,14 @@ public class RetrieveProjectsTest {
     private final ProjectVO projectVO1 = new ProjectVO(1l, "projet1", 10);
     private final ProjectVO projectVO2 = new ProjectVO(2l, "projet2", 20);
 
+    private void initWithSomeProjects(List<ProjectVO> projectVOs) {
+        this.projectQuery.setProjectVOs(projectVOs);
+    }
+
+    private void assertRetrievedProjects(List<ProjectVO> projectVOs) {
+        assert(Arrays.asList(new RetrieveProjects(this.projectQuery).handle()).equals(projectVOs));
+    }
+
     @Test
     public void shouldBeEmptyWhenThereIsNone() {
         InMemoryProjectQuery projectQuery = new InMemoryProjectQuery();
@@ -23,13 +31,5 @@ public class RetrieveProjectsTest {
     public void shouldRetrieveProjectsWhenThereAreSome() {
         this.initWithSomeProjects(Arrays.asList(projectVO1, projectVO2));
         this.assertRetrievedProjects(Arrays.asList(projectVO1, projectVO2));
-    }
-
-    private void initWithSomeProjects(List<ProjectVO> projectVOs) {
-        this.projectQuery.setProjectVOs(projectVOs);
-    }
-
-    private void assertRetrievedProjects(List<ProjectVO> projectVOs) {
-        assert(Arrays.asList(new RetrieveProjects(this.projectQuery).handle()).equals(projectVOs));
     }
 }

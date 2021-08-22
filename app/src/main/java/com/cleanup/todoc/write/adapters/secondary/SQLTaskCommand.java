@@ -26,4 +26,5 @@ public class SQLTaskCommand implements TaskCommand {
     public void deleteById(long id) {
         this.taskDao.deleteById(id);
     }
+
 }

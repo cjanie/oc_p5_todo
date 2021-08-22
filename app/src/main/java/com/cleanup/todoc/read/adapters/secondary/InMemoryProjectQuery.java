@@ -1,6 +1,5 @@
 package com.cleanup.todoc.read.adapters.secondary;
 
-
 import com.cleanup.todoc.read.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 

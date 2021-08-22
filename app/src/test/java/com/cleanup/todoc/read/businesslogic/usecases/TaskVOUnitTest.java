@@ -16,11 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
-/**
- * Unit tests for tasks
- *
- * @author Gaëtan HERFRAY
- */
+// @author Gaëtan HERFRAY
 public class TaskVOUnitTest {
 
     private final InMemoryProjectQuery projectQuery = new InMemoryProjectQuery();
@@ -105,6 +101,5 @@ public class TaskVOUnitTest {
         assert(taskVOs.get(1).getId() == task2.getId());
         assert(taskVOs.get(2).getId() == task3.getId());
     }
-
 
 }

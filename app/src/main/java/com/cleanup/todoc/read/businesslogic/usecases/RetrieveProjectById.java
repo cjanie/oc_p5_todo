@@ -13,4 +13,5 @@ public class RetrieveProjectById {
     public ProjectVO handle(long projectId) {
         return this.projectQuery.retrieveById(projectId);
     }
+
 }

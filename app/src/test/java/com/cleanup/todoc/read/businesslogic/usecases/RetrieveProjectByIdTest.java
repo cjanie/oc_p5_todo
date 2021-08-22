@@ -15,6 +15,14 @@ public class RetrieveProjectByIdTest {
     private final ProjectVO projectVO1 = new ProjectVO(1l, "projet1", 10);
     private final ProjectVO projectVO2 = new ProjectVO(2l, "projet2", 20);
 
+    private void initWithSomeProjects(List<ProjectVO> projectVOs) {
+        this.projectQuery.setProjectVOs(projectVOs);
+    }
+
+    private void assertRetrievedProject(ProjectVO projectVO) {
+        assert(new RetrieveProjectById(projectQuery).handle(projectVO.getId()).getId() == projectVO.getId());
+    }
+
     @Test
     public void shouldReturnNullWhenProjectDoesNotExist() {
         InMemoryProjectQuery projectQuery = new InMemoryProjectQuery();
@@ -29,11 +37,4 @@ public class RetrieveProjectByIdTest {
         this.assertRetrievedProject(projectVO1);
     }
 
-    private void initWithSomeProjects(List<ProjectVO> projectVOs) {
-        this.projectQuery.setProjectVOs(projectVOs);
-    }
-
-    private void assertRetrievedProject(ProjectVO projectVO) {
-        assert(new RetrieveProjectById(projectQuery).handle(projectVO.getId()).getId() == projectVO.getId());
-    }
 }

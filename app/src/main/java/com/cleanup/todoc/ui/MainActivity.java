@@ -32,59 +32,39 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * <p>Home activity of the application which is displayed when the user opens the app.</p>
- * <p>Displays the list of tasks.</p>
- *
  * @author Gaëtan HERFRAY
  */
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
 
+    // The view model that provides data
     private TaskViewModel taskViewModel;
 
-    /**
-     * The adapter which handles the list of tasks
-     */
+    // The adapter which handles the list of tasks
     private TasksAdapter adapter;
 
-    /**
-     * The sort method to be used to display tasks
-     */
+    // The methods to be used to display tasks
     @NonNull
     private SortMethod sortMethod = SortMethod.NONE;
 
     private SearchMethod searchMethod = SearchMethod.NONE;
 
-    /**
-     * Dialog to create a new task
-     */
+    //Dialog to create a new task
     @Nullable
     public AlertDialog dialog = null;
 
-    /**
-     * EditText that allows user to set the name of a task
-     */
+    // EditText that allows user to set the name of a task
     @Nullable
     private EditText dialogEditText = null;
 
-    /**
-     * Spinner that allows the user to associate a project to a task
-     */
+    // Spinner that allows the user to associate a project to a task
     @Nullable
     private Spinner dialogSpinner = null;
 
-    /**
-     * The RecyclerView which displays the list of tasks
-     */
-    // Suppress warning is safe because variable is initialized in onCreate
-    @SuppressWarnings("NullableProblems")
+    //The RecyclerView which displays the list of tasks
     @NonNull
     private RecyclerView listTasks;
 
-    /**
-     * The TextView displaying the empty state
-     */
-    // Suppress warning is safe because variable is initialized in onCreate
-    @SuppressWarnings("NullableProblems")
+    //The TextView displaying the empty state
     @NonNull
     private TextView lblNoTasks;
 
@@ -154,11 +134,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.updateTasks();
     }
 
-    /**
-     * Called when the user clicks on the positive button of the Create Task Dialog.
-     *
-     * @param dialogInterface the current displayed dialog
-     */
+    // Called when the user clicks on the positive button of the Create Task Dialog
     private void onPositiveButtonClick(DialogInterface dialogInterface) {
         // If dialog is open
         if (dialogEditText != null && dialogSpinner != null) {
@@ -194,25 +170,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 dialogInterface.dismiss();
             }
         }
-        // If dialog is aloready closed
+        // If dialog is already closed
         else {
             dialogInterface.dismiss();
         }
     }
 
-    /**
-     * Shows the Dialog for adding a Task
-     */
+    // Shows the Dialog for adding a Task
     private void showAddTaskDialog() {
         final AlertDialog dialog = getAddTaskDialog();
         dialog.show();
-
         dialogEditText = dialog.findViewById(R.id.txt_task_name);
         dialogSpinner = dialog.findViewById(R.id.project_spinner);
+
         this.taskViewModel.getProjects().observe(this, projects -> {
             populateDialogSpinner(projects);
         });
-
     }
 
     @NonNull
@@ -250,9 +223,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         return dialog;
     }
 
-    /**
-     * Sets the data of the Spinner with projects to associate to a new task
-     */
+    //Set the projects spinner with data
     private void populateDialogSpinner(@NonNull ProjectVO[] allProjects) {
         final ArrayAdapter<ProjectVO> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, allProjects);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -266,12 +237,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.updateTasks();
     }
 
-    // --- filter functionnalities ----
-
-    /**
-     * Updates the list of tasks in the UI
-     */
-
+    // --- SORT functionnalities ----
+    // Updates the list of tasks in the UI according to sort method
     private void updateTasks() {
         this.taskViewModel.listTasks().observe(this, tasks -> {
 
@@ -287,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         });
     }
 
-    // --- search functionnality ---
+    // --- SEARCH functionality ---
     private void showProjectsDialog() {
         final AlertDialog dialog = this.getSearchByProjectDialog();
         dialog.show();
@@ -318,4 +285,5 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             this.listTasks.setAdapter(this.adapter);
         });
     }
+
 }

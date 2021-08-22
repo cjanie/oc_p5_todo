@@ -1,8 +1,5 @@
 package com.cleanup.todoc.read.businesslogic.usecases;
 
-import com.cleanup.todoc.modelpersistance.Project;
-import com.cleanup.todoc.modelpersistance.Task;
-import com.cleanup.todoc.read.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.read.businesslogic.gateways.queries.TaskQuery;
 
 import java.util.ArrayList;
@@ -20,4 +17,5 @@ public class RetrieveTasksByProject {
         List<TaskVO> taskVOs = this.taskQuery.retrieveTasksByProject(projectId);
         return taskVOs;
     }
+
 }

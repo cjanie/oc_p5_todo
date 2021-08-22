@@ -1,6 +1,5 @@
 package com.cleanup.todoc.write.adapters.secondary;
 
-import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;
 
@@ -35,4 +34,5 @@ public class InMemoryTaskCommand implements TaskCommand {
     public List<TaskVO> getTasks() {
         return tasks;
     }
+
 }

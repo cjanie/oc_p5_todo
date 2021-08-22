@@ -15,4 +15,5 @@ public class RetrieveTasks {
     public List<TaskVO> handle() {
         return this.taskQuery.retrieveAll();
     }
+
 }

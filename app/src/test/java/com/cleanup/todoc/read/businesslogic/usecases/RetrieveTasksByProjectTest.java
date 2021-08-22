@@ -27,6 +27,10 @@ public class RetrieveTasksByProjectTest {
         this.taskVO3 = new TaskVO(3l, this.projectQuery.retrieveById(2l), "task du projet 2", 30l);
     }
 
+    private void initWithSomeTasks(List<TaskVO> taskVOs) {
+        this.taskQuery.setTasks(taskVOs);
+    }
+
     @Test
     public void shouldRetrieve1TaskIfProjectHas1Task() {
         assert(new RetrieveTasksByProject(this.taskQuery).handle(1l).size() == 0);
@@ -40,10 +44,6 @@ public class RetrieveTasksByProjectTest {
         assert(new RetrieveTasksByProject(taskQuery).handle(1l).size() == 2);
         this.initWithSomeTasks(Arrays.asList(new TaskVO[] {this.taskVO1, this.taskVO2, this.taskVO3}));
         assert(new RetrieveTasksByProject(taskQuery).handle(1l).size() == 2);
-    }
-
-    private void initWithSomeTasks(List<TaskVO> taskVOs) {
-        this.taskQuery.setTasks(taskVOs);
     }
 
 }

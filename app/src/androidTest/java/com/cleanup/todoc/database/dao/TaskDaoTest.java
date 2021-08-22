@@ -1,8 +1,10 @@
 package com.cleanup.todoc.database.dao;
 
+import android.content.Context;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 
 import com.cleanup.todoc.database.AppDataBase;
 import com.cleanup.todoc.modelpersistance.Project;
@@ -34,7 +36,9 @@ public class TaskDaoTest {
 
     @Before
     public void initDb() throws Exception {
-        this.appDataBase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), AppDataBase.class)
+        Context context = ApplicationProvider.getApplicationContext();
+
+        this.appDataBase = Room.inMemoryDatabaseBuilder(context, AppDataBase.class)
                 .allowMainThreadQueries()
                 .build();
     }

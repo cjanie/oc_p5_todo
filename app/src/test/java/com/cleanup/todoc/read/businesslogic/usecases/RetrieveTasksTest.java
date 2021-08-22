@@ -26,6 +26,13 @@ public class RetrieveTasksTest {
         this.taskVO2 = new TaskVO(2l, this.projectQuery.retrieveById(2l),"nom", 20l);
     }
 
+    private void initWithSomeTasks(List<TaskVO> taskVOs) {
+        this.taskQuery.setTasks(taskVOs);
+    }
+
+    private void assertRetrievedTasks(List<TaskVO> taskVOs) {
+        assert(new RetrieveTasks(this.taskQuery).handle()).equals(taskVOs);
+    }
 
     @Test
     public void shouldBeEmptyListWhenThereIsNone() {
@@ -41,11 +48,4 @@ public class RetrieveTasksTest {
         assert(new RetrieveTasks(this.taskQuery).handle().get(1).getProjectVO().getId() == 2l);
     }
 
-    private void initWithSomeTasks(List<TaskVO> taskVOs) {
-        this.taskQuery.setTasks(taskVOs);
-    }
-
-    private void assertRetrievedTasks(List<TaskVO> taskVOs) {
-        assert(new RetrieveTasks(this.taskQuery).handle()).equals(taskVOs);
-    }
 }

@@ -49,4 +49,5 @@ public class TaskViewModelFactory implements ViewModelProvider.Factory {
         }
         throw new IllegalArgumentException("TaskViewModelFactory: Unknown ViewModel class");
     }
+
 }

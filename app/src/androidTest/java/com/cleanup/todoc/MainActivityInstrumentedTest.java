@@ -1,11 +1,11 @@
 package com.cleanup.todoc;
 
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,25 +16,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.cleanup.todoc.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @author Gaëtan HERFRAY
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+// @author Gaëtan HERFRAY
 @RunWith(AndroidJUnit4.class)
 public class MainActivityInstrumentedTest {
 
@@ -67,7 +59,6 @@ public class MainActivityInstrumentedTest {
         onView(withId(R.id.fab_add_task)).perform(click());
         onView(withId(R.id.txt_task_name)).perform(replaceText("Tâche example"));
         onView(withId(android.R.id.button1)).perform(click());
-
         // Check that lblTask is not displayed anymore
         assertThat(lblNoTask.getVisibility(), equalTo(View.GONE));
         // Check that recyclerView is displayed
@@ -172,7 +163,6 @@ public class MainActivityInstrumentedTest {
         assert(this.listTasks.getAdapter().getItemCount() == 0);
         onView(withText("Projet Circus")).inRoot(RootMatchers.isDialog()).perform(click());
         assert(this.listTasks.getAdapter().getItemCount() == 0);
-
     }
 
 }
