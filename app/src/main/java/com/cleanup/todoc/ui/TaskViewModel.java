@@ -1,21 +1,18 @@
 package com.cleanup.todoc.ui;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.cleanup.todoc.modelpersistance.Task;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveProjects;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasks;
 import com.cleanup.todoc.read.businesslogic.usecases.RetrieveTasksByProject;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
-import com.cleanup.todoc.read.businesslogic.usecases.enums.SearchMethod;
 import com.cleanup.todoc.read.businesslogic.usecases.enums.SortMethod;
 import com.cleanup.todoc.write.businesslogic.usecases.AddTask;
 import com.cleanup.todoc.write.businesslogic.usecases.DeleteTask;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

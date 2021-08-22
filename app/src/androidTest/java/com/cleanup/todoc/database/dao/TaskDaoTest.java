@@ -1,8 +1,8 @@
 package com.cleanup.todoc.database.dao;
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule;
-import android.arch.persistence.room.Room;
-import android.support.test.InstrumentationRegistry;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.room.Room;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.cleanup.todoc.database.AppDataBase;
 import com.cleanup.todoc.modelpersistance.Project;

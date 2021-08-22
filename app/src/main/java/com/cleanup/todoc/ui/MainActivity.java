@@ -1,14 +1,14 @@
 package com.cleanup.todoc.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +27,6 @@ import com.cleanup.todoc.read.businesslogic.usecases.enums.SortMethod;
 import com.cleanup.todoc.ui.injections.Injection;
 import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
-import com.cleanup.todoc.modelpersistance.Task;
 
 import java.util.ArrayList;
 import java.util.Date;

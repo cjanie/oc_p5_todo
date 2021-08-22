@@ -1,8 +1,6 @@
 package com.cleanup.todoc.read.businesslogic.usecases;
 
-import android.support.annotation.NonNull;
-
-import com.cleanup.todoc.modelpersistance.Project;
+import androidx.annotation.NonNull;
 
 import java.util.Comparator;
 
