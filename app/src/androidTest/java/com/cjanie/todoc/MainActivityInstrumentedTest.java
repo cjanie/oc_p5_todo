@@ -135,7 +135,7 @@ public class MainActivityInstrumentedTest {
     }
 
     @Test
-    public void searchByProjectTest() {
+    public void searchByProject() {
         onView(withId(R.id.fab_add_task)).perform(click());
         onView(withId(R.id.txt_task_name)).perform(replaceText("aaa Tâche example"));
         onView(withId(android.R.id.button1)).perform(click());
