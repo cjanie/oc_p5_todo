@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     // The methods to be used to display tasks
     @NonNull
-    private SortMethod sortMethod = SortMethod.NONE;
+    private SortMethod sortMethod;
 
-    private SearchMethod searchMethod = SearchMethod.NONE;
+    private SearchMethod searchMethod;
 
     //Dialog to create a new task
     @Nullable
@@ -95,7 +95,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     protected void onResume() {
         super.onResume();
-        this.updateTasks();
+
+        if(this.taskViewModel.getSelectedProjectIdForSearchMethod() > 0) {
+            this.searchByProject();
+        } else {
+            this.updateTasks();
+        }
     }
 
     @Override
@@ -109,19 +114,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         int id = item.getItemId();
 
         if (id == R.id.filter_alphabetical) {
-            this.sortMethod = SortMethod.ALPHABETICAL;
+            this.taskViewModel.setSelectedProjectIdForSearchMethod(0);
+            this.taskViewModel.setSortMethod(SortMethod.ALPHABETICAL);
             this.updateTasks();
         } else if (id == R.id.filter_alphabetical_inverted) {
-            this.sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+            this.taskViewModel.setSelectedProjectIdForSearchMethod(0);
+            this.taskViewModel.setSortMethod(SortMethod.ALPHABETICAL_INVERTED);
             this.updateTasks();
         } else if (id == R.id.filter_oldest_first) {
-            this.sortMethod = SortMethod.OLD_FIRST;
+            this.taskViewModel.setSelectedProjectIdForSearchMethod(0);
+            this.taskViewModel.setSortMethod(SortMethod.OLD_FIRST);
             this.updateTasks();
         } else if (id == R.id.filter_recent_first) {
-            this.sortMethod = SortMethod.RECENT_FIRST;
+            this.taskViewModel.setSelectedProjectIdForSearchMethod(0);
+            this.taskViewModel.setSortMethod(SortMethod.RECENT_FIRST);
             this.updateTasks();
         } else if(id == R.id.filter_by_project) {
-            this.searchMethod = SearchMethod.BY_PROJECT;
             this.showProjectsDialog();
         }
 
@@ -131,7 +139,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onDeleteTask(long id) {
         this.taskViewModel.deleteTask(id);
-        this.updateTasks();
+        if(this.taskViewModel.getSelectedProjectIdForSearchMethod() > 0) {
+            this.searchByProject();
+        } else {
+            this.updateTasks();
+        }
     }
 
     // Called when the user clicks on the positive button of the Create Task Dialog
@@ -239,16 +251,16 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     // --- SORT functionnalities ----
     // Updates the list of tasks in the UI according to sort method
+
     private void updateTasks() {
         this.taskViewModel.listTasks().observe(this, tasks -> {
-
             if (tasks.size() == 0) {
                 lblNoTasks.setVisibility(View.VISIBLE);
                 listTasks.setVisibility(View.GONE);
             } else {
                 lblNoTasks.setVisibility(View.GONE);
                 listTasks.setVisibility(View.VISIBLE);
-                this.taskViewModel.switchSortMethod(tasks, this.sortMethod);
+                this.taskViewModel.switchSortMethod(tasks);
                 this.adapter.updateTasks(tasks);
             }
         });
@@ -266,7 +278,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    searchByProject(adapter.getItem(i).getId());
+                    taskViewModel.setSelectedProjectIdForSearchMethod(adapter.getItem(i).getId());
+                    searchByProject();
                 }
             });
         });
@@ -279,10 +292,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         return dialog;
     }
 
-    private void searchByProject(long projectId) {
-        this.taskViewModel.searchByProject(projectId).observe(this, tasks -> {
-            this.adapter = new TasksAdapter(tasks, this);
-            this.listTasks.setAdapter(this.adapter);
+    private void searchByProject() {
+        this.taskViewModel.searchByProject().observe(this, tasks -> {
+            this.lblNoTasks.setVisibility(View.GONE);
+            this.taskViewModel.switchSortMethod(tasks);
+            this.adapter.updateTasks(tasks);
         });
     }
 

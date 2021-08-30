@@ -28,6 +28,10 @@ public class TaskViewModel extends ViewModel {
 
     private final RetrieveTasksByProject retrieveTasksByProject;
 
+    private SortMethod sortMethod;
+
+    private long selectedProjectIdForSearchMethod;
+
     public TaskViewModel(
             RetrieveTasks retrieveTasks,
             RetrieveProjects retrieveProjects,
@@ -39,6 +43,21 @@ public class TaskViewModel extends ViewModel {
         this.addTask = addTask;
         this.deleteTask = deleteTask;
         this.retrieveTasksByProject = retrieveTasksByProject;
+
+        this.sortMethod = SortMethod.NONE;
+        this.selectedProjectIdForSearchMethod = 0;
+    }
+
+    public void setSortMethod(SortMethod sortMethod) {
+        this.sortMethod = sortMethod;
+    }
+
+    public long getSelectedProjectIdForSearchMethod() {
+        return selectedProjectIdForSearchMethod;
+    }
+
+    public void setSelectedProjectIdForSearchMethod(long selectedProjectIdForSearchMethod) {
+        this.selectedProjectIdForSearchMethod = selectedProjectIdForSearchMethod;
     }
 
     public LiveData<List<TaskVO>> listTasks() {
@@ -61,8 +80,8 @@ public class TaskViewModel extends ViewModel {
         this.deleteTask.handle(id);
     }
 
-    public List<TaskVO> switchSortMethod(List<TaskVO> tasks, SortMethod sortMethod) {
-        switch (sortMethod) {
+    public List<TaskVO> switchSortMethod(List<TaskVO> tasks) {
+        switch (this.sortMethod) {
             case ALPHABETICAL:
                 Collections.sort(tasks, new TaskVO.TaskAZComparator());
                 break;
@@ -79,9 +98,9 @@ public class TaskViewModel extends ViewModel {
         return tasks;
     }
 
-    public LiveData<List<TaskVO>> searchByProject(long projectId) {
+    public LiveData<List<TaskVO>> searchByProject() {
         MutableLiveData<List<TaskVO>> mtasks = new MutableLiveData<>();
-        List<TaskVO> tasks = this.retrieveTasksByProject.handle(projectId);
+        List<TaskVO> tasks = this.retrieveTasksByProject.handle(this.selectedProjectIdForSearchMethod);
         mtasks.setValue(tasks);
         return mtasks;
     }
