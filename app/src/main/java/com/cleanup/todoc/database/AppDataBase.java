@@ -12,6 +12,7 @@ import android.graphics.Color;
 import androidx.annotation.NonNull;
 
 import com.cleanup.todoc.database.dao.ProjectDao;
+import com.cleanup.todoc.database.dao.ProjectWithTasksDao;
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.modelpersistance.Project;
 import com.cleanup.todoc.modelpersistance.Task;
@@ -25,6 +26,7 @@ public abstract class AppDataBase extends RoomDatabase {
     // DAO
     public abstract TaskDao taskDao();
     public abstract ProjectDao projectDao();
+    public abstract ProjectWithTasksDao projectWithTasksDao();
 
     // INSTANCE
     public static AppDataBase getInstance(Context context) {

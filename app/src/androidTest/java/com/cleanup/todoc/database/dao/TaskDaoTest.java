@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.cleanup.todoc.database.AppDataBase;
 import com.cleanup.todoc.modelpersistance.Project;
+import com.cleanup.todoc.modelpersistance.ProjectWithTasks;
 import com.cleanup.todoc.modelpersistance.Task;
 
 import org.junit.After;
@@ -53,13 +54,27 @@ public class TaskDaoTest {
     }
 
     @Test
-    public void getTasksWhenNoTaskInserted() throws InterruptedException {
+    public void insertAndGetProjectWithTasks() {
+        // BEFORE: Add demo project & demo tasks
+        this.appDataBase.projectDao().createProject(this.PROJECT_DEMO);
+        this.appDataBase.taskDao().create(this.NEW_TASK_DATALAYER);
+        this.appDataBase.taskDao().create(this.NEW_TASK_VIEW_MODEL);
+        this.appDataBase.taskDao().create(this.NEW_TASK_REFACTOR);
+
+        // TEST
+        ProjectWithTasks[] projectWithTasks = this.appDataBase.projectWithTasksDao().findAll();
+        assert(projectWithTasks.length == 1);
+        assert(projectWithTasks[0].getTasks().size() == 3);
+    }
+
+    @Test
+    public void getTasksWhenNoTaskInserted() {
         List<Task> tasks = this.appDataBase.taskDao().getTasksByProjectId(this.PROJECT_ID);
         assertTrue(tasks.isEmpty());
     }
 
     @Test
-    public void insertAndGetTasks() throws InterruptedException {
+    public void insertAndGetTasks() {
         // BEFORE: Add demo project & demo tasks
         this.appDataBase.projectDao().createProject(this.PROJECT_DEMO);
         this.appDataBase.taskDao().create(this.NEW_TASK_DATALAYER);
@@ -102,5 +117,7 @@ public class TaskDaoTest {
     public void closeDb() throws Exception {
         appDataBase.close();
     }
+
+
 
 }

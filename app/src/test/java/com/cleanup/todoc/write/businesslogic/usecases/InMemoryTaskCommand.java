@@ -1,4 +1,4 @@
-package com.cleanup.todoc.write.adapters.secondary;
+package com.cleanup.todoc.write.businesslogic.usecases;
 
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.write.businesslogic.gateways.commands.TaskCommand;

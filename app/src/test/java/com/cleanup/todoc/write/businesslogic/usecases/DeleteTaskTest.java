@@ -2,7 +2,6 @@ package com.cleanup.todoc.write.businesslogic.usecases;
 
 import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
-import com.cleanup.todoc.write.adapters.secondary.InMemoryTaskCommand;
 
 import org.junit.Test;
 

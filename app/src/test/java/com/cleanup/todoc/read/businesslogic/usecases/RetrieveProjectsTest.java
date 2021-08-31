@@ -1,6 +1,6 @@
 package com.cleanup.todoc.read.businesslogic.usecases;
 
-import com.cleanup.todoc.read.adapters.secondary.InMemoryProjectQuery;
+import com.cleanup.todoc.read.InMemoryProjectQuery;
 
 import org.junit.Test;
 

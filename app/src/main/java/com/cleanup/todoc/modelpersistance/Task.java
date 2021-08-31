@@ -34,20 +34,12 @@ public class Task {
 
     public Task(long id, long projectId, @NonNull String name, long creationTimestamp) {
         this(projectId, name, creationTimestamp);
-        this.setId(id);
+        this.id = id;
     }
 
     // ---- GETTERS AND SETTERS -----
     public long getId() {
         return id;
-    }
-
-    private void setId(long id) {
-        this.id = id;
-    }
-
-    private void setProjectId(long projectId) {
-        this.projectId = projectId;
     }
 
     public long getProjectId() {
@@ -61,10 +53,6 @@ public class Task {
 
     public void setName(@NonNull String name) {
         this.name = name;
-    }
-
-    private void setCreationTimestamp(long creationTimestamp) {
-        this.creationTimestamp = creationTimestamp;
     }
 
     public long getCreationTimestamp() {

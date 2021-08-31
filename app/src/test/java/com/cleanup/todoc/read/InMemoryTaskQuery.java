@@ -1,4 +1,4 @@
-package com.cleanup.todoc.read.adapters.secondary;
+package com.cleanup.todoc.read;
 
 import com.cleanup.todoc.read.businesslogic.gateways.queries.TaskQuery;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;

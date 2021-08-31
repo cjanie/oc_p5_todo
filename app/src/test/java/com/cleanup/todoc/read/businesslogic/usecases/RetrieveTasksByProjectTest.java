@@ -1,7 +1,7 @@
 package com.cleanup.todoc.read.businesslogic.usecases;
 
-import com.cleanup.todoc.read.adapters.secondary.InMemoryProjectQuery;
-import com.cleanup.todoc.read.adapters.secondary.InMemoryTaskQuery;
+import com.cleanup.todoc.read.InMemoryProjectQuery;
+import com.cleanup.todoc.read.InMemoryTaskQuery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class RetrieveTasksByProjectTest {
     }
 
     @Test
-    public void shoudlRetrieve2TasksIfProjectHas2Tasks() {
+    public void shouldRetrieve2TasksIfProjectHas2Tasks() {
         this.initWithSomeTasks(Arrays.asList(new TaskVO[] {this.taskVO1, this.taskVO2}));
         assert(new RetrieveTasksByProject(taskQuery).handle(1l).size() == 2);
         this.initWithSomeTasks(Arrays.asList(new TaskVO[] {this.taskVO1, this.taskVO2, this.taskVO3}));
