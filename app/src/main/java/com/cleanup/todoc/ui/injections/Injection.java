@@ -21,7 +21,7 @@ public class Injection {
 
     public static SQLTaskQuery provideSQLTaskQuery(Context context) {
         AppDataBase dataBase = AppDataBase.getInstance(context);
-        return new SQLTaskQuery(dataBase.taskDao(), Injection.provideSQLProjectQuery(context));
+        return new SQLTaskQuery(dataBase.projectWithTasksDao());
     }
 
     public static SQLTaskCommand provideSQLTaskCommand(Context context) {

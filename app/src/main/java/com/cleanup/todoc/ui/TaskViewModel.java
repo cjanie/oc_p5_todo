@@ -44,7 +44,7 @@ public class TaskViewModel extends ViewModel {
         this.deleteTask = deleteTask;
         this.retrieveTasksByProject = retrieveTasksByProject;
 
-        this.sortMethod = SortMethod.NONE;
+        this.sortMethod = SortMethod.OLD_FIRST;
         this.selectedProjectIdForSearchMethod = 0;
     }
 

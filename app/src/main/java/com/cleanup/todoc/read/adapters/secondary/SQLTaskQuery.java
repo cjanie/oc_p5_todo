@@ -1,9 +1,10 @@
 package com.cleanup.todoc.read.adapters.secondary;
 
-import com.cleanup.todoc.database.dao.TaskDao;
+import com.cleanup.todoc.database.dao.ProjectWithTasksDao;
+import com.cleanup.todoc.modelpersistance.ProjectWithTasks;
 import com.cleanup.todoc.modelpersistance.Task;
-import com.cleanup.todoc.read.businesslogic.gateways.queries.ProjectQuery;
 import com.cleanup.todoc.read.businesslogic.gateways.queries.TaskQuery;
+import com.cleanup.todoc.read.businesslogic.usecases.ProjectVO;
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 
 import java.util.ArrayList;
@@ -11,22 +12,23 @@ import java.util.List;
 
 public class SQLTaskQuery implements TaskQuery {
 
-    private TaskDao taskDao;
+    private ProjectWithTasksDao projectWithTasksDao;
 
-    private ProjectQuery projectQuery;
-
-    public SQLTaskQuery(TaskDao taskDao, ProjectQuery projectQuery) {
-        this.taskDao = taskDao;
-        this.projectQuery = projectQuery;
+    public SQLTaskQuery(ProjectWithTasksDao projectWithTasksDao) {
+        this.projectWithTasksDao = projectWithTasksDao;
     }
 
     @Override
     public List<TaskVO> retrieveAll() {
         List<TaskVO> taskVOs = new ArrayList<>();
-        if(this.taskDao.findAll() != null && !this.taskDao.findAll().isEmpty()) {
-            for(Task task: this.taskDao.findAll()) {
-                TaskVO taskVO = new FormatTaskToTaskVO(task, this.projectQuery).format();
-                taskVOs.add(taskVO);
+        ProjectWithTasks[] projectsWithTasks = this.projectWithTasksDao.findAll();
+        if(projectsWithTasks.length > 0) {
+            for(ProjectWithTasks projectWithTasks: projectsWithTasks) {
+                for(Task task: projectWithTasks.getTasks()) {
+                    TaskVO taskVO =
+                            new FormatTaskToTaskVO(task, projectWithTasks.getProject()).format();
+                    taskVOs.add(taskVO);
+                }
             }
         }
         return taskVOs;
@@ -35,13 +37,15 @@ public class SQLTaskQuery implements TaskQuery {
     @Override
     public List<TaskVO> retrieveTasksByProject(long projectId) {
         List<TaskVO> taskVOs = new ArrayList<>();
-        if(!this.taskDao.getTasksByProjectId(projectId).isEmpty()) {
-            for(Task task: this.taskDao.getTasksByProjectId(projectId)) {
-                TaskVO taskVO = new FormatTaskToTaskVO(task, this.projectQuery).format();
-                taskVOs.add(taskVO);
+        ProjectWithTasks projectWithTasks = this.projectWithTasksDao.findById(projectId);
+        if(projectWithTasks != null) {
+            if(!projectWithTasks.getTasks().isEmpty()) {
+                for(Task task: projectWithTasks.getTasks()) {
+                    TaskVO taskVO = new FormatTaskToTaskVO(task, projectWithTasks.getProject()).format();
+                    taskVOs.add(taskVO);
+                }
             }
         }
         return taskVOs;
     }
-
 }

@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.cleanup.todoc.read.businesslogic.usecases.TaskVO;
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.read.businesslogic.usecases.enums.SearchMethod;
 import com.cleanup.todoc.read.businesslogic.usecases.enums.SortMethod;
 import com.cleanup.todoc.ui.injections.Injection;
 import com.cleanup.todoc.ui.injections.TaskViewModelFactory;
@@ -41,12 +40,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     // The adapter which handles the list of tasks
     private TasksAdapter adapter;
-
-    // The methods to be used to display tasks
-    @NonNull
-    private SortMethod sortMethod;
-
-    private SearchMethod searchMethod;
 
     //Dialog to create a new task
     @Nullable

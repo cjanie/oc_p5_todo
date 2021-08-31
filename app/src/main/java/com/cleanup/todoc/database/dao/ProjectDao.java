@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+
 import com.cleanup.todoc.modelpersistance.Project;
 
 @Dao
@@ -18,4 +19,6 @@ public interface ProjectDao {
 
     @Query("SELECT * FROM Project")
     Project[] getProjects();
+
+
 }
